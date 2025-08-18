@@ -1,0 +1,7 @@
+[project]
+name = "ind-eng-210"
+version = "0.1.0"
+description = "Intro to Python Class"
+readme = "README.md"
+requires-python = "==3.13"
+dependencies = ["ipykernel"]

@@ -1,0 +1,3 @@
+dependencies:
+  python.org: 3.13
+  astral.sh/uv: "*"
