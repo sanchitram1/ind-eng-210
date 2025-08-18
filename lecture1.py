@@ -82,4 +82,73 @@ def while_loops():
         print("Hello World")
 
 
-while_loops()
+def worksheet2():
+    def problem1():
+        """There is a pair of integers x, y such that x^2 + y^2 = 223065.
+        Use for or while loops to find them!"""
+
+        class Found(Exception):
+            pass
+
+        try:
+            for i in range(1000):
+                for j in range(1000):
+                    if i**2 + j**2 == 223065:
+                        print(f"Problem 1: {i}^2 + {j}^2 ?= 223065")
+                        raise Found
+        except Found:
+            pass
+
+    def problem2():
+        """Define W0 = 2 and Wn = W(n-1)**W(n-1)
+        for all integers n ≥ 1. Use a while loop to find the
+        smallest n such that Wn > 10**30"""
+        start = 0
+        val = 2
+        while val < 10**30:
+            start += 1
+            val = val**val
+        print(f"Problem 2: Smallest n for our function is {start}")
+
+    def problem3(n: int = 10) -> list[int]:
+        """Create a list of length 10 where entry i has value 0^2 + 1^2 + 2^2 + ... + i^2
+        (without using the formula for that if you happen to know it). Can you do it
+        with only one for loop"""
+
+        output = []
+        for i in range(n):
+            output.append(i**2)
+
+        print(f"Problem 3: The list is {output}")
+
+    def problem4():
+        """Set n = 100 and create two nested for loops iterating i and j through range(n).
+        Can you find a way to exit both for loops when i = 49 and j = 76? So after you
+        run it, i should have value 49 and j should have value 76."""
+        n = 100
+        for i in range(n):
+            for j in range(n):
+                if j == 76:
+                    break
+            if i == 49:
+                break
+
+        print(f"Problem 4: On exiting, i = {i}, j = {j}")
+
+    def problem5():
+        raise NotImplementedError("Problem 5 not started")
+
+    def problem6():
+        raise NotImplementedError("Problem 6 not started")
+
+    problems = [problem1, problem2, problem3, problem4, problem5, problem6]
+    for problem in problems:
+        try:
+            problem()
+            print("-" * 10)
+        except NotImplementedError as e:
+            print(e)
+
+
+if __name__ == "__main__":
+    worksheet2()
