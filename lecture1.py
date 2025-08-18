@@ -37,7 +37,7 @@ print("Probably because...", x / 10 - y / 10, "is not equal to", z / 10)
 
 # Problem 4
 print()
-print(f"{BIG_SEP} PROBLEM 4 {BIG_SEP}")
+# print(f"{BIG_SEP} PROBLEM 4 {BIG_SEP}")
 b = 1
 c = int(input("Enter an integer: "))
 print(f"{c} * 1 == {c}:", b * c == c)
