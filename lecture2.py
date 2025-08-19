@@ -1,3 +1,4 @@
+import random
 from typing import Any
 
 
@@ -19,21 +20,25 @@ def listends_tuple(a: list[Any]) -> tuple[Any]:
     return (a[0], a[-1])
 
 
+def recursive_worksheet2_problem2(n: int) -> int:
+    """
+    W_0 = 2
+    W_n = W_(n-1) ^ W_(n-1)
+    """
+    if n == 0:
+        return 2
+    return recursive_worksheet2_problem2(n - 1) ** recursive_worksheet2_problem2(n - 1)
+
+
+def is_odd(A: int | list[int]) -> bool:
+    if isinstance(A, int):
+        return A % 2 == 1
+    elif isinstance(A, list):
+        return [is_odd(a) for a in A]
+
+
 if __name__ == "__main__":
-    lst = [1, 2, 3, 4]
-    a, b = listends_nothing(lst)
-    print(f"a={a}, b={b}")
-    a, b = listends_list(lst)
-    print(f"a={a}, b={b}")
-    a, b = listends_tuple(lst)
-    print(f"a={a}, b={b}")
-
-    lst = "Hello!"
-    a, b = listends_nothing(lst)
-    print(f"a={a}, b={b}")
-    a, b = listends_list(lst)
-    print(f"a={a}, b={b}")
-    a, b = listends_tuple(lst)
-    print(f"a={a}, b={b}")
-
-    listends_n_items(lst, 100)
+    print(recursive_worksheet2_problem2(2))
+    random_list = [random.randint(1, 100) for _ in range(10)]
+    odds = is_odd(random_list)
+    print([item for item in zip(random_list, odds)])
