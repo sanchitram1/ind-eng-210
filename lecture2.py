@@ -37,8 +37,15 @@ def is_odd(A: int | list[int]) -> bool:
         return [is_odd(a) for a in A]
 
 
+def modify_list(lst: list[int]):
+    lst[0] += 2
+    return lst
+
+
 if __name__ == "__main__":
-    print(recursive_worksheet2_problem2(2))
-    random_list = [random.randint(1, 100) for _ in range(10)]
-    odds = is_odd(random_list)
-    print([item for item in zip(random_list, odds)])
+    random_list = [random.randint(1, 100) for _ in range(3)]
+    print(id(random_list), random_list)
+
+    mdfd_list = modify_list(random_list)
+    print(id(mdfd_list), mdfd_list)
+    print(id(random_list), random_list)
