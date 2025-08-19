@@ -132,11 +132,22 @@ def worksheet2():
         (without using the formula for that if you happen to know it). Can you do it
         with only one for loop"""
 
-        output = []
-        for i in range(n):
-            output.append(i**2)
+        # output = []
+        # for i in range(n):
+        #     output.append(i**2)
 
-        print(f"Problem 3: The list is {output}")
+        # print(f"Problem 3: The list is {output}")
+
+        # LMAO – I totally misunderstoof this assignment.
+        # The point is that the list should have each element as the sum of squares up
+        # to that index, not just a list of squares
+        N = 10
+        output = [0]
+
+        for i in range(1, N):
+            output.append(i**2 + output[i - 1])
+
+        print(f"Problem 3: {output}")
 
     def problem4():
         """Set n = 100 and create two nested for loops iterating i and j through range(n).
@@ -175,7 +186,7 @@ def worksheet2():
 
         # Set each entry in `b` equal to itself plus all later entries
         for idx in range(len(b)):
-            b[idx] += sum(b[idx:])
+            b[idx] += sum(b[idx + 1 :])
 
         print(f"Original input: {a}")
         print(f"Sum of later entries: {b}")
@@ -219,5 +230,44 @@ def worksheet2():
             print(e)
 
 
+def nested_for_loop_exit():
+    import random
+    import timeit
+
+    N = 10000
+    exit_i = random.randint(0, N)
+    exit_j = random.randint(0, N)
+
+    print(f"Exit conditions: i={exit_i}, j={exit_j}")
+
+    def double_if_double_break(n: int = N):
+        for i in range(n):
+            for j in range(n):
+                # Break 1
+                if i == exit_i:
+                    break
+            # Break 2
+            if j == exit_j:
+                break
+
+    t1 = timeit.timeit(double_if_double_break, number=1000)
+    print(f"Approach 1: {t1:.6f} seconds")
+
+    def exit_loop_condition(n: int = N):
+        exit_loop = False
+        for i in range(n):
+            for j in range(n):
+                exit_loop = i == exit_j and j == exit_j
+                if exit_loop:
+                    break
+
+            if exit_loop:
+                break
+
+    t2 = timeit.timeit(exit_loop_condition, number=1000)
+    print(f"Approach 2: {t2:.6f} seconds")
+
+
 if __name__ == "__main__":
     worksheet2()
+    # nested_for_loop_exit()
