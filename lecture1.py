@@ -8,7 +8,6 @@ def worksheet1():
     # Worksheet 1
 
     # Formatting stuff
-    skip = True
     SEP = "-" * 10
     BIG_SEP = "-" * 20
 
@@ -66,7 +65,6 @@ def worksheet1():
     str1 = "String 1"
     str2 = "String 2"
     lst1 = ["list1", "1"]
-    lst2 = [lst1, "list2"]
 
     print(f"Adding two strings {str1} + {str2}:", str1 + str2)
     # print(f"Subtracting two strings {str1} - {str2}", str1 - str2) # Can't subtract strings
