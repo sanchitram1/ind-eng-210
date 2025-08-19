@@ -1,4 +1,7 @@
 # Lecture 1: Intro to Python.
+from collections import defaultdict
+
+import numpy as np
 
 
 def worksheet1():
@@ -90,11 +93,25 @@ def worksheet2():
         class Found(Exception):
             pass
 
+        # try:
+        #     for i in range(1000):
+        #         for j in range(1000):
+        #             if i**2 + j**2 == 223065:
+        #                 print(f"Problem 1: {i}^2 + {j}^2 ?= 223065")
+        #                 raise Found
+        # except Found:
+        #     pass
+
+        # The better way to do this is actually to ensure you're hitting every pair
+        # of integers sysmetically:
+
+        M = 223065
+        N = int(np.sqrt(M))
         try:
-            for i in range(1000):
-                for j in range(1000):
-                    if i**2 + j**2 == 223065:
-                        print(f"Problem 1: {i}^2 + {j}^2 ?= 223065")
+            for i in range(N):
+                for j in range(i):
+                    if i**2 + j**2 == M:
+                        print(f"Problem 1: {i}^2 + {j}^2 == 223065:", i**2 + j**2)
                         raise Found
         except Found:
             pass
@@ -136,10 +153,62 @@ def worksheet2():
         print(f"Problem 4: On exiting, i = {i}, j = {j}")
 
     def problem5():
-        raise NotImplementedError("Problem 5 not started")
+        """Set A to be a list of numbers of your choice. Set B equal to A.
+        Use for loops to set each entry in B equal to itself plus all the
+        ’later entries’ (entries corresponding to a larger index) in B. After doing
+        that (to B only), what is the value of A?"""
+        print("Problem 5:")
+
+        # Get the input
+        bad_input = True
+        while bad_input:
+            ask = input("Enter a comma-separated list of numbers: ")
+            try:
+                a = [int(i.strip()) for i in ask.split(",")]
+                bad_input = False
+            except ValueError as e:
+                print(f"Couldn't parse input {ask}: {e}")
+        print(f"User inputted: {a}")
+
+        # Set b
+        b = a
+
+        # Set each entry in `b` equal to itself plus all later entries
+        for idx in range(len(b)):
+            b[idx] += sum(b[idx:])
+
+        print(f"Original input: {a}")
+        print(f"Sum of later entries: {b}")
 
     def problem6():
-        raise NotImplementedError("Problem 6 not started")
+        """
+        Initialize an empty dictionary. Ask the user for their name, and then for their
+        major, and add it to the dictionary. Suppose that user then leaves and a new
+        person comes along.
+        Your code for this problem should continue running, asking for users’ name and
+        major, which are then added to the dictionary, until a user enters -1 as their
+        name or major, upon which the program ends.
+        """
+        print("Problem 6")
+        students = defaultdict(list)
+        run = True
+        while run:
+            name = input("Enter your name: ")
+
+            # Exit condition
+            if name == "-1":
+                break
+
+            # Ask for major
+            major = input("Enter your major: ")
+
+            # Create the student
+            student = {"name": name.strip(), "major": major.strip()}
+
+            # Add the student to the output
+            students["students"].append(student)
+
+        print(f"Students: {students.items()}")
 
     problems = [problem1, problem2, problem3, problem4, problem5, problem6]
     for problem in problems:
