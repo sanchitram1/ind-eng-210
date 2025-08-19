@@ -244,13 +244,13 @@ def nested_for_loop_exit():
         for i in range(n):
             for j in range(n):
                 # Break 1
-                if i == exit_i:
+                if j == exit_j:
                     break
             # Break 2
-            if j == exit_j:
+            if i == exit_i:
                 break
 
-    t1 = timeit.timeit(double_if_double_break, number=1000)
+    t1 = timeit.timeit(double_if_double_break, number=10)
     print(f"Approach 1: {t1:.6f} seconds")
 
     def exit_loop_condition(n: int = N):
@@ -264,10 +264,10 @@ def nested_for_loop_exit():
             if exit_loop:
                 break
 
-    t2 = timeit.timeit(exit_loop_condition, number=1000)
+    t2 = timeit.timeit(exit_loop_condition, number=10)
     print(f"Approach 2: {t2:.6f} seconds")
 
 
 if __name__ == "__main__":
-    worksheet2()
-    # nested_for_loop_exit()
+    # worksheet2()
+    nested_for_loop_exit()
