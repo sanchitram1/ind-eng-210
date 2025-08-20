@@ -1,7 +1,9 @@
 import argparse
-from time import time
 
-from modules.mymodule import create_list_comprehension, create_list_for_loop
+import numpy as np
+
+from modules.mymodule import time_report
+from worksheets.worksheet3 import mean1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -15,10 +17,7 @@ if __name__ == "__main__":
 
     number = args.number
 
-    start_time = time()
-    lst = create_list_comprehension(number)
-    print(f"List comprehension time: {time() - start_time}")
+    A = np.arange(number)
 
-    start_time = time()
-    lst = create_list_for_loop(number)
-    print(f"For loop time: {time() - start_time}")
+    time_report(mean1, "Mean 1 Runtime", A)
+    time_report(np.mean, "np.mean Runtime", A)

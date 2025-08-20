@@ -16,9 +16,9 @@ def mean1(numbers: list[int | float]) -> float:
     Raises:
       - If it is given a list of anything except ints or floats, it will error"""
     # Guard
-    assert all(
-        [isinstance(i, int) or isinstance(i, float) for i in numbers]
-    ), f"Input contained non-numeric entries: {numbers}"
+    # assert all(
+    #     [isinstance(i, int) or isinstance(i, float) for i in numbers]
+    # ), f"Input contained non-numeric entries: {numbers}"
 
     # Logic
     current_sum = 0

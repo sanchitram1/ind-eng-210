@@ -1,4 +1,7 @@
-from typing import Any
+from time import time
+from typing import Any, Callable
+
+import numpy as np
 
 
 def sum_of_first_n_squares(n: int) -> int:
@@ -22,3 +25,36 @@ def create_list_for_loop(some_int: int) -> list[Any]:
         output.append(x**2)
 
     return output
+
+
+def create_list_numpy(some_int: int):
+    a = np.arange(some_int)
+    return a**2
+
+
+def create_simple_list_for_loop(some_int: int) -> list[int]:
+    output = []
+
+    for x in range(some_int):
+        output.append(x)
+
+    return output
+
+
+def create_numpy_array(some_int: int):
+    output = np.zeros(some_int, np.int32)
+
+    for x in range(some_int):
+        output[x] = x
+
+    return output
+
+
+def create_numpy_range(some_int: int):
+    return np.arange(some_int, dtype=np.int32)
+
+
+def time_report(function: Callable, msg: str, *args):
+    start = time()
+    function(*args)
+    print(f"{msg}: {time() - start:.6f}")
