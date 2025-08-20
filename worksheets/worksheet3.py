@@ -90,6 +90,7 @@ def i_times_sin_i(i: int):
 
 
 if __name__ == "__main__":
+    # Problem 1 tests
     assert mean1([1, 2, 3]) == 2
     assert round(mean1([1.1, 2.2, 3.3]), 2) == 2.2
 
@@ -98,14 +99,17 @@ if __name__ == "__main__":
     except AssertionError:
         pass
 
+    # Problem 2 tests
     assert mean2([1, "hi", 3]) == 2
     assert round(mean2([2, 6, "hi", 7.3]), 2) == 5.10
 
+    # Problem 3 tests
     assert myMaxMin([1, 2, 3]) == (3, 1)
     assert myMaxMin([-1, -2, -3], True) == (0, 0)
     assert myMaxMin([-1, -2, -3]) == (-1, -3)
     assert myMaxMin([-100, 0, 1], True) == (1, 0)
 
+    # Problem 4
     inputs = range(1, 100, 1)
     vals = [i_times_sin_i(i) for i in inputs]
     max_val, min_val = myMaxMin(vals)
