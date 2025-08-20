@@ -1,6 +1,7 @@
 import argparse
+from time import time
 
-from modules.mymodule import sum_of_first_n_squares
+from modules.mymodule import create_list_comprehension, create_list_for_loop
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -14,4 +15,10 @@ if __name__ == "__main__":
 
     number = args.number
 
-    print(sum_of_first_n_squares(number))
+    start_time = time()
+    lst = create_list_comprehension(number)
+    print(f"List comprehension time: {time() - start_time}")
+
+    start_time = time()
+    lst = create_list_for_loop(number)
+    print(f"For loop time: {time() - start_time}")
