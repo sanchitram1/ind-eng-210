@@ -115,9 +115,10 @@ def do_all_problems():
         problem()
 
 
+def compare_problem2_approaches():
+    time_report(problem2, "Double For Loop Problem 2", 10000)
+    time_report(problem2_vectorized_attempt, "Vectorized Problem 2", 10000)
+
+
 if __name__ == "__main__":
     do_all_problems()
-    # problem5(1000000)
-    # time_report(problem2, "Double For Loop Problem 2", 10000)
-    # time_report(problem2_vectorized_attempt, "Vectorized Problem 2", 10000)
-    # problem2_vectorized_attempt(10000)
