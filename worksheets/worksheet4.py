@@ -1,6 +1,11 @@
-import timeit
+import sys
+from math import sin
 
 import numpy as np
+
+from modules.mymodule import time_report
+
+sys.setrecursionlimit(10000000)
 
 SEP = "-" * 10
 
@@ -27,13 +32,11 @@ def problem1():
     pretty_print_array(A, "Modified")
 
 
-def problem2():
+def problem2(square: int = 10):
     """Initialize a 10x10 Numpy array using np.zeros or np.empty. Then, modify it so
     that each index i row is [i, i+1, ..., i +9]. Next, separately print each column of
     the resulting array."""
-    square = 10
     A = np.zeros((square, square))
-    pretty_print_array(A, "Original Array")
 
     for row in range(square):
         for col in range(square):
@@ -41,39 +44,80 @@ def problem2():
 
     pretty_print_array(A, "Modified Array")
 
-    for i in range(square):
-        print(f"Column {i+1}")
-        print(A[:, i])
+
+def problem2_vectorized_attempt(dimension: int = 10):
+    A = np.zeros((dimension, dimension))
+
+    flat = np.arange(dimension)
+    tall = flat.T
+
+    for i in range(dimension):
+        A[i, :] += flat
+        A[:, i] += tall
+
+    pretty_print_array(A, "Modified Matrix")
+
+    if dimension <= 10:
+        for i in range(dimension):
+            pretty_print_array(A[:, i], f"Column {i}")
 
 
 def problem3():
-    """Assign (not necessarily in one line) variable an array taking values sin(0), sin(0.001),
-    sin(0.002), ..., sin(3.999), sin(4). Compare the runtime of finding the max entry of this
-    array using a for loop versus using the np.max function; print what relative fraction of
-    time it took"""
-    A = [np.sin(i / 1000) for i in range(0, 4000, 1)]
+    """Assign (not necessarily in one line) variable an array taking values sin(0),
+    sin(0.001), sin(0.002), ..., sin(3.999), sin(4). Find the largest change between two
+    consectuive entries in that array"""
+    A = np.sin(np.arange(0, 4, 0.001))
 
-    t1 = timeit.timeit(lambda: np.max(A), number=1000)
-    print(f"Numpy Max Approach: {t1:.6f} seconds, max_value={np.max(A)}")
+    # Create a new array that's basically A, but shifted over
+    B = np.append(np.delete(A, 0), np.nan)
 
-    def for_loop_approach(a) -> float:
-        # Start
-        current_max = a[0]
-
-        # Loop
-        for item in a[1:]:
-            if item > current_max:
-                current_max = item
-
-        return current_max
-
-    t2 = timeit.timeit(lambda: for_loop_approach(A), number=1000)
-    print(f"For loop approach: {t2:.6f} seconds, max_value={for_loop_approach(A)}")
+    # Grab the absolute difference
+    D = abs(A - B)
+    print(f"Largest change between two consecutive entries: {np.nanmax(D)}")
 
 
-if __name__ == "__main__":
-    problems = [problem1, problem2, problem3]
+def problem4():
+    """Do problem 3 without for loops"""
+    problem3()
+
+
+def problem5(some_int: int = 1000000):
+    def rec(some_int: int) -> float:
+        if some_int == 1:
+            return sin(1)
+
+        return (some_int * sin(some_int)) + rec(some_int - 1)
+
+    def numpy_arrays(some_int: int) -> float:
+        return np.sum(np.arange(1, some_int, 1) * np.sin(np.arange(1, some_int, 1)))
+
+    def for_loop(some_int: int) -> float:
+        return sum([i * sin(i) for i in range(1, some_int, 1)])
+
+    recursion_sum = round(rec(some_int - 1), 6)
+    time_report(rec, "Problem 5 (Recursion)", some_int)
+    numpy_arrays_sum = round(numpy_arrays(some_int), 6)
+    time_report(numpy_arrays, "Problem 5 (Numpy Arrays)", some_int)
+    for_loop_sum = round(for_loop(some_int), 6)
+    time_report(for_loop, "Problem 5 (For Loop)", some_int)
+
+    # Just make sure they're all doing the same thing
+    assert (
+        numpy_arrays_sum == for_loop_sum == recursion_sum
+    ), f"{numpy_arrays_sum} != {for_loop_sum} != {recursion_sum}"
+
+
+def do_all_problems():
+    problems = [problem1, problem2_vectorized_attempt, problem3, problem4, problem5]
     for i, problem in enumerate(problems):
         print()
         print(f"{SEP} PROBLEM {i+1} {SEP}")
         problem()
+
+
+if __name__ == "__main__":
+    do_all_problems()
+    # problem5(1000000)
+    # time_report(problem2, "Double For Loop Problem 2", 10000)
+    # time_report(problem2_vectorized_attempt, "Vectorized Problem 2", 10000)
+    # problem2_vectorized_attempt(10000)
