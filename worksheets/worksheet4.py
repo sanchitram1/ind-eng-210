@@ -1,13 +1,19 @@
 import sys
 from math import sin
+from time import time
+from typing import Callable
 
 import numpy as np
-
-from modules.mymodule import time_report
 
 sys.setrecursionlimit(10000000)
 
 SEP = "-" * 10
+
+
+def time_report(function: Callable, msg: str, *args):
+    start = time()
+    function(*args)
+    print(f"{msg}: {time() - start:.6f}")
 
 
 def pretty_print_array(a, msg: str) -> None:
