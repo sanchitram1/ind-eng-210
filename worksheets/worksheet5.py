@@ -1,0 +1,107 @@
+from random import random
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def problem1():
+    """
+    Problem:
+
+        Plot a graph for f (x) = x − sin(x) from 0 to 8. Use a spacing of 0.01 for your
+        x points in creating the graph. Next, use an index mask to select x coordinates
+        where f(x) > x, and call the set of those coordinates Z. Then make a scatter
+        plot of (Z, f(Z)) over your original plot using plt.scatter
+        (where plt is from import matplotlib.pyplot as plt).
+    """
+    x = np.arange(0, 8, 0.01)
+    y = x - np.sin(x)
+    plt.plot(x, y)
+
+    # Mask
+    z_x = x[x <= y]
+    z_y = y[x <= y]
+    plt.scatter(z_x, z_y)
+
+    plt.show()
+
+
+def problem2():
+    """
+    Problem:
+
+        Generate a list of 30 random numbers between 0 and 1. Make y a list where the
+        nth entry is the mean of the first n generated numbers. Plot the values of y on
+        the y axis, with the corresponding indices on the x axis. Next, in the same
+        plot, add a line with constant value of 0.5 to visualize what is happening
+    """
+    size = 30
+    x = [random() for _ in range(size)]
+    y = [np.mean(x[:i]) for i, num in enumerate(x)]
+
+    plt.scatter(x, y, s=5)
+    plt.hlines(y=0.5, xmin=0, xmax=1)
+    plt.ylim(bottom=0, top=1)
+
+    plt.show()
+
+
+def problem4():
+    """
+    Problem:
+
+        Download the GPA-SAT data.csv file from bCourses, and import it as a numpy array.
+        Answer the following questions (using numpy functions and masking):
+            • What are the average SAT scores and GPAs, and what are their standard deviations?
+            • Using only the ”lower half” of the table (rows (number of rows / 2) onwards), what
+            is the average SAT score and GPA?
+            • Make a scatterplot of SAT scores versus GPAs from this dataset.
+            • How many students’ SAT scores are above 1900, and what is the average GPA among
+            those students? (Use masks!)
+            • There is only one student in the dataset with a GPA under 2.6 whose SAT score is
+            above 1750. Can you do this with masking? (hint: you can use * on two masks as
+            entry-wise ”and”)
+    """
+    sat_data = np.genfromtxt("data/GPA-SAT-Data-Fall-2025.csv", delimiter=",")
+    print(sat_data)
+
+
+def problem3():
+    """
+    Problem:
+
+        Download the temperatures.csv data from bCourses, import it as a numpy array, and
+        answer the following:
+            • An invalid reading is any temperature below 0 or above 100 degrees Celsius. Create
+            and print a mask that identifies all invalid readings; then also print all of the invalid
+            readings themselves.
+            • Use the mask from the previous step to create a new array called valid temps that
+            contain only the valid readings. Print the mean, min, max, and standard deviation
+            of these valid temperature readings.
+            • Instead of just removing the invalid values, let’s replace each invalid value by the
+            average of the values immediately before and after it, as our ”best estimate” of those
+            temperatures. (What would you do if the first or last value was invalid?)
+            • Using valid temps, create a mask to find how many days the temperature was above
+            24.0 degrees. Print the final count (not the array) of how many of these hot days
+            there were
+    """
+    raise NotImplementedError
+
+
+def do_homework():
+    problems = [problem1, problem2, problem3, problem4]
+    for i, p in enumerate(problems):
+        print(f"{'-'*10} PROBLEM {i} {'-' * 10}")
+
+        try:
+            p()
+        except NotImplementedError:
+            print(f"⏳ Problem {i} not started")
+        except Exception as e:
+            raise e
+
+        print()
+
+
+if __name__ == "__main__":
+    do_homework()
