@@ -2,7 +2,9 @@ from random import random
 
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.testing import assert_equal
 
+from modules.mymodule import sep, small_sep
 from worksheets.worksheet4 import pretty_print_array
 
 
@@ -66,9 +68,46 @@ def problem4():
             above 1750. Can you do this with masking? (hint: you can use * on two masks as
             entry-wise ”and”)
     """
+    # safe open
     with open("data/GPA-SAT-Data-Fall-2025.csv", "r", encoding="utf-8-sig") as f:
         sat_data = np.genfromtxt(f, delimiter=",")
-    print(sat_data)
+
+    # problem a
+    small_sep("a")
+    print(
+        f"SAT Scores\nAverage={np.mean(sat_data[:,0]):.2f}, Std Dev={np.std(sat_data[:,0]):.2f}"
+    )
+    print(
+        f"GPAs\nAverage={np.mean(sat_data[:,1]):.2f}, Std Dev={np.std(sat_data[:,1]):.2f}"
+    )
+
+    # problem b
+    lower_half = sat_data[int(sat_data.shape[0] / 2) :, :]
+    small_sep("b")
+    print(
+        f"Lower Half\nAvg SAT Score={np.mean(lower_half[:, 0]):.2f}, Avg GPA={np.mean(lower_half[:, 1]):.2f}"
+    )
+
+    # problem c
+    plt.title("Scatter Plot of SAT Scores vs. GPA")
+    plt.scatter(sat_data[:, 0], sat_data[:, 1])
+    plt.show()
+
+    # problem d
+    small_sep("d")
+    above_1900 = sat_data[sat_data[:, 0] > 1900, :]
+    print(
+        f"Average GPA for students with above 1900 on SAT={np.mean(above_1900[:, 1]):.2f}"
+    )
+
+    # problem e
+    small_sep("e")
+    special_student = sat_data[(sat_data[:, 1] < 2.6) * (sat_data[:, 0] > 1750)]
+    special_student_and = sat_data[(sat_data[:, 1] < 2.6) & (sat_data[:, 0] > 1750)]
+
+    assert_equal(special_student, special_student_and)
+    assert special_student.shape[0] == 1, f"Found {special_student.shape} students"
+    print(f"Special student scores={special_student}")
 
 
 def problem3():
@@ -96,7 +135,7 @@ def problem3():
 def do_homework():
     problems = [problem1, problem2, problem3, problem4]
     for i, p in enumerate(problems):
-        print(f"{'-'*10} PROBLEM {i + 1} {'-' * 10}")
+        sep(f"PROBLEM {i+1}")
 
         try:
             p()
@@ -155,5 +194,5 @@ def concatenate_exercise():
 if __name__ == "__main__":
     # do_homework()
     # assets_assignment()
-    # problem4()
-    concatenate_exercise()
+    problem4()
+    # concatenate_exercise()
