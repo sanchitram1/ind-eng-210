@@ -3,6 +3,8 @@ from random import random
 import matplotlib.pyplot as plt
 import numpy as np
 
+from worksheets.worksheet4 import pretty_print_array
+
 
 def problem1():
     """
@@ -16,6 +18,7 @@ def problem1():
     """
     x = np.arange(0, 8, 0.01)
     y = x - np.sin(x)
+    plt.title("Problem 1")
     plt.plot(x, y)
 
     # Mask
@@ -39,6 +42,7 @@ def problem2():
     x = [random() for _ in range(size)]
     y = [np.mean(x[:i]) for i, num in enumerate(x)]
 
+    plt.title("Problem 2")
     plt.scatter(x, y, s=5)
     plt.hlines(y=0.5, xmin=0, xmax=1)
     plt.ylim(bottom=0, top=1)
@@ -62,7 +66,8 @@ def problem4():
             above 1750. Can you do this with masking? (hint: you can use * on two masks as
             entry-wise ”and”)
     """
-    sat_data = np.genfromtxt("data/GPA-SAT-Data-Fall-2025.csv", delimiter=",")
+    with open("data/GPA-SAT-Data-Fall-2025.csv", "r", encoding="utf-8-sig") as f:
+        sat_data = np.genfromtxt(f, delimiter=",")
     print(sat_data)
 
 
@@ -91,17 +96,64 @@ def problem3():
 def do_homework():
     problems = [problem1, problem2, problem3, problem4]
     for i, p in enumerate(problems):
-        print(f"{'-'*10} PROBLEM {i} {'-' * 10}")
+        print(f"{'-'*10} PROBLEM {i + 1} {'-' * 10}")
 
         try:
             p()
         except NotImplementedError:
-            print(f"⏳ Problem {i} not started")
+            print(f"⏳ Problem {i+1} not started")
         except Exception as e:
             raise e
 
         print()
 
 
+def assets_assignment():
+    """
+    Columns are:
+        "goldprice_change",
+        "copperprice_change",
+        "SP500price_change",
+        "oilprice_change",
+        "NASDAQprice_change",
+        "steelprice_change",
+    """
+    data = np.genfromtxt("data/assets.csv", delimiter=",", skip_header=True)
+    print(data.shape, id(data))
+
+    gold_price_up = data[data[:, 0] > 0]
+    print(gold_price_up.shape, id(gold_price_up))
+
+    gold_and_copper_price_up = data[(data[:, 0] > 0) & (data[:, 1] > 0)]
+    print(gold_and_copper_price_up.shape, id(gold_and_copper_price_up))
+
+    print()
+    try:
+        gold_and_copper_price_up = data[data[:, 0] > 0 & data[:, 1] > 0]
+        print("Whoops, this succeeded")
+    except TypeError as e:
+        print(f"Multiple index masks need parentheses to be chained: {e}")
+
+    print()
+    try:
+        gold_and_copper_price_up = data[(data[:, 0] > 0) and (data[:, 1] > 0)]
+        print("Whoops, this succeeded")
+    except ValueError as e:
+        print(f"`and` is just not implemented: {e}")
+
+
+def concatenate_exercise():
+    N = 10
+    A = np.ones((1, N))
+    B = np.ones((1, N)) + 5
+    pretty_print_array(A, "A")
+    pretty_print_array(B, "B")
+    pretty_print_array(np.concatenate((A, B), axis=0), "A+B, axis=0")
+    pretty_print_array(np.concatenate((A, B), axis=1), "A+B, axis=1")
+
+
 if __name__ == "__main__":
-    do_homework()
+    # do_homework()
+    # assets_assignment()
+    # problem4()
+    concatenate_exercise()
