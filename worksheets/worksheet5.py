@@ -42,7 +42,9 @@ def problem2():
     """
     size = 30
     x = [random() for _ in range(size)]
-    y = [np.mean(x[:i]) for i, num in enumerate(x)]
+    y = [np.mean(x[: i + 1]) for i in range(size)]
+    for i, j in zip(x, y):
+        print(f"{i:.4f}, {j:.4f}")
 
     plt.title("Problem 2")
     plt.scatter(x, y, s=5)
@@ -132,7 +134,7 @@ def problem3():
     raise NotImplementedError
 
 
-def do_homework():
+def do_worksheet():
     problems = [problem1, problem2, problem3, problem4]
     for i, p in enumerate(problems):
         sep(f"PROBLEM {i+1}")
@@ -192,7 +194,7 @@ def concatenate_exercise():
 
 
 if __name__ == "__main__":
-    # do_homework()
+    # do_worksheet()
     # assets_assignment()
-    problem4()
+    problem2()
     # concatenate_exercise()
