@@ -58,3 +58,11 @@ def time_report(function: Callable, msg: str, *args):
     start = time()
     function(*args)
     print(f"{msg}: {time() - start:.6f}")
+
+
+def sep(msg: str, i: int = 20) -> None:
+    print(f"{'-'*i}{msg}{'-'*i}")
+
+
+def small_sep(msg: str, i: int = 10) -> None:
+    sep(msg, i)
