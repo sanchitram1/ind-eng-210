@@ -47,8 +47,8 @@ def problem2():
         print(f"{i:.4f}, {j:.4f}")
 
     plt.title("Problem 2")
-    plt.scatter(x, y, s=5)
-    plt.hlines(y=0.5, xmin=0, xmax=1)
+    plt.scatter(np.arange(30), y, s=5)
+    plt.hlines(y=0.5, xmin=0, xmax=size)
     plt.ylim(bottom=0, top=1)
 
     plt.show()
@@ -131,7 +131,29 @@ def problem3():
             24.0 degrees. Print the final count (not the array) of how many of these hot days
             there were
     """
-    raise NotImplementedError
+    temperatures = np.genfromtxt("data/temperatures.csv")
+
+    small_sep("a")
+    invalid = temperatures[(temperatures < 0) | (temperatures > 100)]
+    print(f"Invalid readings: {invalid}")
+
+    small_sep("b")
+    valid = temperatures[np.logical_not((temperatures < 0) | (temperatures > 100))]
+    print(f"Valid readings: {valid}")
+
+    small_sep("c")
+    new_temps = temperatures.copy()
+    is_invalid = (new_temps < -50) | (new_temps > 100)
+
+    for i in range(1, len(new_temps) - 1):
+        if is_invalid[i]:
+            new_temps[i] = (new_temps[i - 1] + new_temps[i + 1]) / 2
+
+    print(f"Corrected temperatures: {new_temps}")
+
+    small_sep("d")
+    hot_days = np.sum(new_temps > 24)
+    print(f"Number of hot days: {hot_days}")
 
 
 def do_worksheet():
@@ -196,5 +218,5 @@ def concatenate_exercise():
 if __name__ == "__main__":
     # do_worksheet()
     # assets_assignment()
-    problem2()
+    problem3()
     # concatenate_exercise()
