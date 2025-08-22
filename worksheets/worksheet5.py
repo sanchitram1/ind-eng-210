@@ -216,7 +216,7 @@ def concatenate_exercise():
 
 
 if __name__ == "__main__":
-    # do_worksheet()
+    do_worksheet()
     # assets_assignment()
-    problem3()
+    # problem3()
     # concatenate_exercise()
