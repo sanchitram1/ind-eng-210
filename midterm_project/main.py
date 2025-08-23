@@ -3,6 +3,8 @@ import sys
 
 import pandas as pd
 
+from utils import sep
+
 df = pd.read_csv("data/recipes.csv", index_col=0)
 
 
@@ -31,12 +33,31 @@ def worksheet7():
       on weekends ...) versus when the condition is not met
     - The previous bullet point but with two or more conditions
     """
-    # we can look at stars and
+    # we can look at stars (ratings of the recipes) and reputation_score (rating of the
+    # user)
+
+    # stars
+    # note that stars = 0 corresponds to a missing entry, so let's filter it out
+    empty_stars_mask = df["stars"] != 0
+    sep("Summary Statistics of stars")
+    print(f"Mean of stars: {df.loc[empty_stars_mask, :]['stars'].mean():.4f}")
+    print(f"Max of stars: {df.loc[empty_stars_mask, :]['stars'].max()}")
+    print(f"Min of stars: {df.loc[empty_stars_mask, :]['stars'].min()}")
+    print(
+        f"Distribution of stars: {df.loc[empty_stars_mask, :]['stars'].value_counts()}"
+    )
+
+    # reputation_score
+    # note that reputation_score is an internal metreic
+    sep("Summary statistics of reputation_score")
+    #
+    # plt.hist(df.loc[empty_stars_mask, :]["stars"])
+    # plt.title("Stars Distribution")
+    # plt.show()
 
 
 def main():
-    print(f"Columns: {df.columns}")
-    print(f"DF Shape: {df.shape}")
+    worksheet7()
 
 
 if __name__ == "__main__":
